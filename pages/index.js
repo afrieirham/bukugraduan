@@ -1,3 +1,11 @@
+import { useAuth } from '@/utils/auth'
+
 export default function Home() {
-  return <div>Hello World</div>
+  const { user, signInWithGoogle } = useAuth()
+  return (
+    <div>
+      <button onClick={() => signInWithGoogle()}>login</button>
+      Hello: {user?.name}
+    </div>
+  )
 }
