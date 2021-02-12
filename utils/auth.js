@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
+
 import firebase from '@/lib/firebase'
+import { saveUser } from '@/utils/db'
 
 // Create authContext
 const authContext = createContext()
@@ -24,6 +26,11 @@ function useAuthProvider() {
   const handleUser = async (rawUser) => {
     if (rawUser) {
       const user = await formatUser(rawUser)
+
+      const { token, refreshToken, ...userForFirestore } = user
+
+      // Save user info to db
+      saveUser(userForFirestore)
 
       setUser(user)
       return user
