@@ -23,7 +23,6 @@ function useAuthProvider() {
   // Set user in state if logged in
   const handleUser = async (rawUser) => {
     if (rawUser) {
-      console.log(rawUser)
       const user = await formatUser(rawUser)
 
       setUser(user)
