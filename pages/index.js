@@ -1,84 +1,52 @@
-import { Flex, Text, Button, Stack, Avatar, Input, Box, Link } from '@chakra-ui/react'
+import { Text, Button, Input, Box, Heading } from '@chakra-ui/react'
 
-import { useAuth } from '@/utils/auth'
+import DashboardShell from '@/components/DashboardShell'
 
-export default function Home() {
-  const { user, signInWithGoogle, signOut } = useAuth()
-
+function Home() {
   return (
-    <Flex
-      flexDirection='column'
-      justifyContent='center'
-      alignItems='stretch'
-      backgroundColor='whiteAlpha.50'
-    >
-      <Flex bg='gray.50' borderTop='8px solid #4FD1C5'>
-        <Flex
-          justifyContent='space-between'
-          alignItems='center'
-          width='full'
-          maxWidth='900px'
-          mx='auto'
-          py={4}
-        >
-          <Stack spacing={6} isInline alignItems='center'>
-            <Stack spacing={2} isInline justifyContent='flex-start' alignItems='center'>
-              +<Text fontWeight='bold'>Buku Graduan</Text>
-            </Stack>
-            <Link>My Listings</Link>
-          </Stack>
-
-          {user ? (
-            <Stack spacing={4} isInline alignItems='center'>
-              <Avatar size='sm' src={user.photoUrl} />
-              <Button size='sm' onClick={() => signOut()}>
-                Log Out
-              </Button>
-            </Stack>
-          ) : (
-            <Button size='sm' onClick={() => signInWithGoogle()}>
-              Log In
-            </Button>
-          )}
-        </Flex>
-      </Flex>
-      <Flex
-        maxWidth='900px'
-        width='full'
-        ml='auto'
-        mr='auto'
-        justifyContent='flex-start'
-        flexDirection='column'
-        alignItems='stretch'
+    <DashboardShell>
+      <Heading
+        fontSize='5xl'
+        fontWeight='bold'
+        textAlign='center'
+        fontFamily='Playfair Display'
         mt={32}
+        as='h1'
       >
-        <Text fontSize='5xl' fontWeight='bold' textAlign='center' fontFamily='Playfair Display'>
-          Buy and sell reference books online.
-        </Text>
-        <Text textAlign='center' mt={2}>
-          <i>
-            <b>"Buku Graduan"</b>
-          </i>{' '}
-          is a marketplace for university student’s to buy and sell their reference books once they
-          don’t use it anymore. It's still a work-in-progress, but you are welcomed to have a look
-          around!
-        </Text>
-        <Box mt={16} position='relative'>
-          <Input px={8} py={10} variant='filled' placeholder='Book title that you’re looking for' />
-          <Button
-            position='absolute'
-            right={8}
-            top={5}
-            size='lg'
-            backgroundColor='teal.200'
-            color='teal.700'
-            _hover={{ bg: 'teal.300' }}
-            _active={{ bg: 'teal.400' }}
-          >
-            Search
-          </Button>
-        </Box>
-      </Flex>
-    </Flex>
+        Buy and sell reference books online.
+      </Heading>
+      <Text textAlign='center' mt={2}>
+        <i>
+          <b>"Buku Graduan"</b>
+        </i>{' '}
+        is a marketplace for university student’s to buy and sell their reference books once they
+        don’t use it anymore. It's still a work-in-progress, but you are welcomed to have a look
+        around!
+      </Text>
+      <Box mt={16} position='relative'>
+        <Input
+          bg='white'
+          variant='filled'
+          px={8}
+          py={10}
+          placeholder='Book title that you’re looking for'
+          _focus={{ bg: 'white' }}
+        />
+        <Button
+          position='absolute'
+          right={8}
+          top={5}
+          size='lg'
+          backgroundColor='teal.200'
+          color='teal.700'
+          _hover={{ bg: 'teal.300' }}
+          _active={{ bg: 'teal.400' }}
+        >
+          Search
+        </Button>
+      </Box>
+    </DashboardShell>
   )
 }
+
+export default Home
