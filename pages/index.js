@@ -3,7 +3,8 @@ import { Flex, Text, Button, Stack, Avatar, Input, Box, Link } from '@chakra-ui/
 import { useAuth } from '@/utils/auth'
 
 export default function Home() {
-  const { user } = useAuth()
+  const { user, signInWithGoogle, signOut } = useAuth()
+
   return (
     <Flex
       flexDirection='column'
@@ -27,13 +28,18 @@ export default function Home() {
             <Link>My Listings</Link>
           </Stack>
 
-          <Button
-            variant='ghost'
-            size='md'
-            leftIcon={<Avatar size='sm' src={user?.photoUrl} mr={2} />}
-          >
-            Profile
-          </Button>
+          {user ? (
+            <Stack spacing={4} isInline alignItems='center'>
+              <Avatar size='sm' src={user.photoUrl} />
+              <Button size='sm' onClick={() => signOut()}>
+                Log Out
+              </Button>
+            </Stack>
+          ) : (
+            <Button size='sm' onClick={() => signInWithGoogle()}>
+              Log In
+            </Button>
+          )}
         </Flex>
       </Flex>
       <Flex
