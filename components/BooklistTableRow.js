@@ -14,7 +14,7 @@ function BooklistTableRow({ title, price, isSold, createdAt }) {
       <Td>
         <Switch colorScheme='green' />
       </Td>
-      <Td>{format(parseISO(createdAt), 'MMM Mo yyyy')}</Td>
+      <Td>{format(parseISO(createdAt), 'd/MM/yyyy')}</Td>
       <Td>
         <IconButton variant='ghost'>
           <Trash size='15' />
