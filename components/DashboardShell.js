@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import { Flex, Button, Stack, Avatar, Link } from '@chakra-ui/react'
+import { Flex, Button, Stack, Avatar, Link, LinkOverlay, LinkBox } from '@chakra-ui/react'
 
 import { useAuth } from '@/utils/auth'
 import { BookOpen } from 'react-feather'
@@ -33,10 +33,10 @@ function DashboardShell({ children }) {
 
           {user ? (
             <Stack spacing={4} isInline alignItems='center'>
+              <NextLink href='/account' passHref>
+                <Link>Account</Link>
+              </NextLink>
               <Avatar size='sm' src={user.photoUrl} />
-              <Button size='sm' onClick={() => signOut()}>
-                Log Out
-              </Button>
             </Stack>
           ) : (
             <Button size='sm' onClick={() => signInWithGoogle()}>
