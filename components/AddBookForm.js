@@ -22,7 +22,7 @@ import { useForm } from 'react-hook-form'
 import { mutate } from 'swr'
 
 import { useAuth } from '@/utils/auth'
-import { addBook } from '@/utils/db'
+import { addBook, getFirestoreUser } from '@/utils/db'
 
 function AddBookForm() {
   const router = useRouter()
@@ -54,6 +54,7 @@ function AddBookForm() {
   const onSubmit = async ({ title, price, condition, description }) => {
     if (!validatePhoto()) return
 
+    const firestoreUser = await getFirestoreUser(user.uid)
     const newBooklist = {
       title,
       price: Number(price),
@@ -62,8 +63,8 @@ function AddBookForm() {
       isSold: false,
       authorId: user.uid,
       authorName: user.name,
-      authorUniversity: 'Universiti Malaya',
-      authorContact: 'https://wa.me/60132661223',
+      authorUniversity: firestoreUser.university,
+      authorContact: firestoreUser.mobile,
       createdAt: new Date().toISOString(),
     }
 
