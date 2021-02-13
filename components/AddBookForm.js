@@ -50,17 +50,20 @@ function AddBookForm() {
     return Boolean(preview)
   }
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async ({ title, price, condition, description }) => {
     if (!validatePhoto()) return
 
     const newBooklist = {
-      ...formData,
-      status: 'selling',
+      title,
+      price: Number(price),
+      condition,
+      description,
+      isSold: false,
       authorId: user.uid,
       authorName: user.name,
       authorUniversity: 'Universiti Malaya',
       authorContact: 'https://wa.me/60132661223',
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
     }
 
     // Store in db
@@ -174,13 +177,13 @@ function AddBookForm() {
             <Text mt={6} fontWeight='semibold'>
               Condition
             </Text>
-            <RadioGroup defaultValue='new'>
+            <RadioGroup defaultValue='used'>
               <Stack spacing={5} direction='row'>
-                <Radio value='new' colorScheme='teal' name='condition' ref={register}>
-                  New
-                </Radio>
                 <Radio value='used' colorScheme='teal' name='condition' ref={register}>
                   Used
+                </Radio>
+                <Radio value='new' colorScheme='teal' name='condition' ref={register}>
+                  New
                 </Radio>
               </Stack>
             </RadioGroup>
