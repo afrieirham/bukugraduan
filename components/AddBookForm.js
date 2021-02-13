@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { ChevronLeft, UploadCloud, X } from 'react-feather'
 import { useForm } from 'react-hook-form'
+import { mutate } from 'swr'
 
 import { useAuth } from '@/utils/auth'
 import { addBook } from '@/utils/db'
@@ -77,6 +78,7 @@ function AddBookForm() {
       isClosable: true,
     })
 
+    mutate(['/api/booklist', user.token], null, false)
     router.push('/booklist')
   }
 
