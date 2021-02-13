@@ -1,10 +1,19 @@
 import NextLink from 'next/link'
+import useSWR from 'swr'
+
 import { Button, Flex, Heading } from '@chakra-ui/react'
 
 import DashboardShell from '@/components/DashboardShell'
 import BooklistEmptyState from '@/components/BooklistEmptyState'
+import fetcher from '@/utils/fetcher'
+import BooklistTableSkeleton from '@/components/BooklistTableSkeleton'
+import BooklistTable from '@/components/BooklistTable'
+import { useAuth } from '@/utils/auth'
 
 function Booklist() {
+  const { user } = useAuth()
+  const { data } = useSWR(user ? ['/api/booklist', user.token] : null, fetcher)
+
   return (
     <DashboardShell>
       <Flex
@@ -14,6 +23,7 @@ function Booklist() {
         width='full'
         mx='auto'
         mt={16}
+        mb={8}
       >
         <Heading as='h1' size='xl'>
           My Booklist
@@ -29,7 +39,13 @@ function Booklist() {
           </Button>
         </NextLink>
       </Flex>
-      <BooklistEmptyState />
+      {!data ? (
+        <BooklistTableSkeleton />
+      ) : data.booklist.length === 0 ? (
+        <BooklistEmptyState />
+      ) : (
+        <BooklistTable booklist={data.booklist} />
+      )}
     </DashboardShell>
   )
 }

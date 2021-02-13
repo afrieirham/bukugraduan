@@ -4,7 +4,6 @@ import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 function BooklistEmptyState() {
   return (
     <Flex
-      mt={8}
       width='100%'
       backgroundColor='white'
       borderRadius='8px'
