@@ -1,3 +1,4 @@
+import NextLink from 'next/link'
 import { Button, Flex, Heading } from '@chakra-ui/react'
 
 import DashboardShell from '@/components/DashboardShell'
@@ -14,17 +15,19 @@ function Booklist() {
         mx='auto'
         mt={16}
       >
-        <Heading as='h2' size='xl'>
+        <Heading as='h1' size='xl'>
           My Booklist
         </Heading>
-        <Button
-          backgroundColor='teal.200'
-          color='teal.800'
-          _hover={{ bg: 'teal.300' }}
-          _active={{ bg: 'teal.400' }}
-        >
-          + Add Book
-        </Button>
+        <NextLink href='/add-book'>
+          <Button
+            backgroundColor='teal.200'
+            color='teal.800'
+            _hover={{ bg: 'teal.300' }}
+            _active={{ bg: 'teal.400' }}
+          >
+            + Add Book
+          </Button>
+        </NextLink>
       </Flex>
       <BooklistEmptyState />
     </DashboardShell>
