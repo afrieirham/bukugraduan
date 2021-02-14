@@ -51,26 +51,29 @@ function ListingPage({ listing, author }) {
       <Flex width='100%' maxWidth='900px' mx='auto'>
         <Flex direction='column'>
           <Box width='350px' height='450px' position='relative'>
-            <NextImage layout='fill' src={listing.photoUrl} objectFit='cover' />
+            <NextImage layout='fill' src={listing?.photoUrl} objectFit='cover' />
           </Box>
         </Flex>
         <Flex width='full' flexDirection='column' bg='white' p={6} ml={8}>
           <Flex justifyContent='space-between' alignItems='center' mb={6}>
-            <Badge variant='subtle' colorScheme={listing.condition === 'used' ? 'orange' : 'green'}>
-              {listing.condition}
+            <Badge
+              variant='subtle'
+              colorScheme={listing?.condition === 'used' ? 'orange' : 'green'}
+            >
+              {listing?.condition}
             </Badge>
             <Text fontSize='xs' color='gray.500'>
-              {formatDistance(parseISO(listing.createdAt), new Date(), { addSuffix: true })}
+              {formatDistance(parseISO(listing?.createdAt), new Date(), { addSuffix: true })}
             </Text>
           </Flex>
           <Flex justifyContent='space-between' alignItems='center' mb={8}>
             <Flex justifyContent='center' alignItems='center'>
-              <Avatar mr={4} size='md' src={author.photoUrl} />
+              <Avatar mr={4} size='md' src={author?.photoUrl} />
               <Flex flexDirection='column'>
                 <Text fontWeight='bold' fontSize='xl'>
-                  {author.name}
+                  {author?.name}
                 </Text>
-                <Text color='gray.500'>{author.university}</Text>
+                <Text color='gray.500'>{author?.university}</Text>
               </Flex>
             </Flex>
             <Button variant='solid' size='md'>
@@ -79,12 +82,12 @@ function ListingPage({ listing, author }) {
           </Flex>
           <Flex mb={4}></Flex>
           <Heading size='lg' as='h1' mb={4}>
-            {listing.title}
+            {listing?.title}
           </Heading>
           <Text fontSize='lg' mb={8}>
-            {listing.price ? `RM${listing.price}` : 'Free'}
+            {listing?.price ? `RM${listing?.price}` : 'Free'}
           </Text>
-          <Text>{listing.description}</Text>
+          <Text>{listing?.description}</Text>
         </Flex>
       </Flex>
     </DashboardShell>
