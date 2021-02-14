@@ -63,7 +63,8 @@ function ListingPage({ listing, author }) {
               {listing?.condition}
             </Badge>
             <Text fontSize='xs' color='gray.500'>
-              {formatDistance(parseISO(listing?.createdAt), new Date(), { addSuffix: true })}
+              {listing?.createdAt &&
+                formatDistance(parseISO(listing.createdAt), new Date(), { addSuffix: true })}
             </Text>
           </Flex>
           <Flex justifyContent='space-between' alignItems='center' mb={8}>
