@@ -17,3 +17,7 @@ export function addBook(book) {
   newBooklist.set(book)
   return newBooklist
 }
+
+export function updateListing(listId, newValues) {
+  return firestore.collection('booklist').doc(listId).update(newValues)
+}
