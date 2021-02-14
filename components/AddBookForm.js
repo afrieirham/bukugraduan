@@ -23,6 +23,7 @@ import { mutate } from 'swr'
 
 import { useAuth } from '@/utils/auth'
 import { addBook, getFirestoreUser } from '@/utils/db'
+import { uploadPhoto } from '@/utils/storage'
 
 function AddBookForm() {
   const router = useRouter()
@@ -33,7 +34,7 @@ function AddBookForm() {
   const [previewError, setPreviewError] = useState(false)
 
   const { handleSubmit, register, errors } = useForm()
-  const { getRootProps, getInputProps } = useDropzone({
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     maxFiles: 1,
     onDrop: (acceptedFiles) => setPreview(URL.createObjectURL(acceptedFiles[0])),
@@ -54,12 +55,17 @@ function AddBookForm() {
   const onSubmit = async ({ title, price, condition, description }) => {
     if (!validatePhoto()) return
 
+    // Upload photo to firebase storage
+    const upload = await uploadPhoto(acceptedFiles[0])
+    const photoUrl = await upload.ref.getDownloadURL()
+
     const firestoreUser = await getFirestoreUser(user.uid)
     const newBooklist = {
       title,
       price: Number(price),
       condition,
       description,
+      photoUrl,
       isSold: false,
       authorId: user.uid,
       authorName: user.name,
@@ -68,8 +74,8 @@ function AddBookForm() {
       createdAt: new Date().toISOString(),
     }
 
-    // Store in db
-    await addBook(newBooklist)
+    // Store listing info in db
+    addBook(newBooklist)
 
     toast({
       title: 'Success!',
