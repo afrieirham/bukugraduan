@@ -22,7 +22,7 @@ import { useForm } from 'react-hook-form'
 import { mutate } from 'swr'
 
 import { useAuth } from '@/utils/auth'
-import { addBook, getFirestoreUser } from '@/utils/db'
+import { addBook } from '@/utils/db'
 import { uploadPhoto } from '@/utils/storage'
 
 function AddBookForm() {
@@ -59,7 +59,6 @@ function AddBookForm() {
     const upload = await uploadPhoto(acceptedFiles[0])
     const photoUrl = await upload.ref.getDownloadURL()
 
-    const firestoreUser = await getFirestoreUser(user.uid)
     const newBooklist = {
       title,
       price: Number(price),
@@ -68,9 +67,6 @@ function AddBookForm() {
       photoUrl,
       isSold: false,
       authorId: user.uid,
-      authorName: user.name,
-      authorUniversity: firestoreUser.university,
-      authorContact: firestoreUser.mobile,
       createdAt: new Date().toISOString(),
     }
 
