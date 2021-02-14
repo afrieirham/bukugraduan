@@ -31,6 +31,12 @@ export async function getAllListings() {
   return { listings: sortedList }
 }
 
+export async function getListing(listId) {
+  const doc = await db.collection('booklist').doc(listId).get()
+  const listing = { id: doc.id, ...doc.data() }
+  return { listing }
+}
+
 export async function getUserDetails(uid) {
   const doc = await db.collection('users').doc(uid).get()
   const user = { id: doc.id, ...doc.data() }
