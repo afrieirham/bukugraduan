@@ -4,8 +4,8 @@ import { Flex, Button, Stack, Avatar, Link, LinkOverlay, LinkBox } from '@chakra
 import { useAuth } from '@/utils/auth'
 import { BookOpen } from 'react-feather'
 
-function DashboardShell({ children }) {
-  const { user, signInWithGoogle, signOut } = useAuth()
+function DashboardShell({ maxWidth, children }) {
+  const { user, signInWithGoogle } = useAuth()
 
   return (
     <Flex flexDirection='column' justifyContent='center'>
@@ -26,13 +26,13 @@ function DashboardShell({ children }) {
                 </Link>
               </NextLink>
             </Stack>
-            <NextLink href='/booklist' passHref>
-              <Link>My Booklist</Link>
-            </NextLink>
           </Stack>
 
           {user ? (
             <Stack spacing={4} isInline alignItems='center'>
+              <NextLink href='/booklist' passHref>
+                <Link>My Booklist</Link>
+              </NextLink>
               <NextLink href='/account' passHref>
                 <Link>Account</Link>
               </NextLink>
@@ -49,7 +49,7 @@ function DashboardShell({ children }) {
         <Flex
           mx='auto'
           width='full'
-          maxWidth='900px'
+          maxWidth={maxWidth ?? '900px'}
           flexDirection='column'
           justifyContent='flex-start'
         >
