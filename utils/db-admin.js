@@ -15,3 +15,24 @@ export async function getUserBooklist(uid) {
 
   return { booklist: sortedList }
 }
+
+export async function getAllListings() {
+  const snapshot = await db.collection('booklist').where('isSold', '==', false).get()
+
+  const listings = []
+  snapshot.forEach((doc) => {
+    listings.push({ id: doc.id, ...doc.data() })
+  })
+
+  const sortedList = listings.sort((a, b) =>
+    compareDesc(parseISO(a.createdAt), parseISO(b.createdAt)),
+  )
+
+  return { listings: sortedList }
+}
+
+export async function getUserDetails(uid) {
+  const doc = await db.collection('users').doc(uid).get()
+  const user = { id: doc.id, ...doc.data() }
+  return { user }
+}

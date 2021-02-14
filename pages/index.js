@@ -1,10 +1,14 @@
 import { Text, Button, Input, Box, Heading } from '@chakra-ui/react'
 
 import DashboardShell from '@/components/DashboardShell'
+import Listing from '@/components/Listing'
+import useSWR from 'swr'
+import fetcher from '@/utils/fetcher'
 
 function Home() {
+  const { data } = useSWR('/api/listings', fetcher)
   return (
-    <DashboardShell>
+    <DashboardShell maxWidth='1000px'>
       <Heading
         fontSize='5xl'
         fontWeight='bold'
@@ -12,10 +16,12 @@ function Home() {
         fontFamily='Playfair Display'
         mt={32}
         as='h1'
+        width='900px'
+        mx='auto'
       >
         Buy and sell reference books online.
       </Heading>
-      <Text textAlign='center' mt={2}>
+      <Text textAlign='center' mt={2} width='900px' mx='auto'>
         <i>
           <b>"Buku Graduan"</b>
         </i>{' '}
@@ -44,6 +50,12 @@ function Home() {
         >
           Search
         </Button>
+      </Box>
+      <Box mt={20} width='800px' mx='auto'>
+        <Heading size='sm'>Browse for books 👇🏻</Heading>
+        {data?.listings?.map((listing) => (
+          <Listing key={listing.id} {...listing} />
+        ))}
       </Box>
     </DashboardShell>
   )
