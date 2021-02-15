@@ -1,20 +1,12 @@
-import useSWR from 'swr'
-import { useEffect, useState } from 'react'
-import { Text, Button, Input, Box, Heading } from '@chakra-ui/react'
+import { InstantSearch } from 'react-instantsearch-dom'
+import { Text, Heading } from '@chakra-ui/react'
 
-import fetcher from '@/utils/fetcher'
-import Listing from '@/components/Listing'
 import DashboardShell from '@/components/DashboardShell'
-import ListingSkeleton from '@/components/ListingSkeleton'
+import SearchBox from '@/components/SearchBox'
+import ListingHits from '@/components/ListingHits'
+import { searchClient, INDEX_NAME } from '@/lib/algolia'
 
 function Home() {
-  const { data } = useSWR('/api/listings', fetcher)
-  const [listings, setListings] = useState(null)
-
-  useEffect(() => {
-    setListings(data?.listings)
-  }, [data?.listings])
-
   return (
     <DashboardShell maxWidth='1000px'>
       <Heading
@@ -37,43 +29,10 @@ function Home() {
         don’t use it anymore. It's still a work-in-progress, but you are welcomed to have a look
         around!
       </Text>
-      <Box mt={16} position='relative'>
-        <Input
-          bg='white'
-          variant='filled'
-          px={8}
-          py={10}
-          placeholder='Book title that you’re looking for'
-          _focus={{ bg: 'white' }}
-        />
-        <Button
-          position='absolute'
-          right={8}
-          top={5}
-          size='lg'
-          backgroundColor='teal.200'
-          color='teal.700'
-          _hover={{ bg: 'teal.300' }}
-          _active={{ bg: 'teal.400' }}
-        >
-          Search
-        </Button>
-      </Box>
-      <Box mt={20} width='800px' mx='auto'>
-        {listings?.length === 0 ? (
-          <Text>There are no listed books currently</Text>
-        ) : (
-          <Heading size='sm'>Browse for books 👇🏻</Heading>
-        )}
-        {!listings ? (
-          <>
-            <ListingSkeleton />
-            <ListingSkeleton />
-          </>
-        ) : (
-          listings.map((listing) => <Listing key={listing.id} {...listing} />)
-        )}
-      </Box>
+      <InstantSearch indexName={INDEX_NAME} searchClient={searchClient}>
+        <SearchBox />
+        <ListingHits />
+      </InstantSearch>
     </DashboardShell>
   )
 }
