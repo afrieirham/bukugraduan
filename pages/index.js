@@ -1,12 +1,20 @@
+import useSWR from 'swr'
+import { useEffect, useState } from 'react'
 import { Text, Button, Input, Box, Heading } from '@chakra-ui/react'
 
-import DashboardShell from '@/components/DashboardShell'
-import Listing from '@/components/Listing'
-import useSWR from 'swr'
 import fetcher from '@/utils/fetcher'
+import Listing from '@/components/Listing'
+import DashboardShell from '@/components/DashboardShell'
+import ListingSkeleton from '@/components/ListingSkeleton'
 
 function Home() {
   const { data } = useSWR('/api/listings', fetcher)
+  const [listings, setListings] = useState(null)
+
+  useEffect(() => {
+    setListings(data?.listings)
+  }, [data?.listings])
+
   return (
     <DashboardShell maxWidth='1000px'>
       <Heading
@@ -52,10 +60,19 @@ function Home() {
         </Button>
       </Box>
       <Box mt={20} width='800px' mx='auto'>
-        <Heading size='sm'>Browse for books 👇🏻</Heading>
-        {data?.listings?.map((listing) => (
-          <Listing key={listing.id} {...listing} />
-        ))}
+        {listings?.length === 0 ? (
+          <Text>There are no listed books currently</Text>
+        ) : (
+          <Heading size='sm'>Browse for books 👇🏻</Heading>
+        )}
+        {!listings ? (
+          <>
+            <ListingSkeleton />
+            <ListingSkeleton />
+          </>
+        ) : (
+          listings.map((listing) => <Listing key={listing.id} {...listing} />)
+        )}
       </Box>
     </DashboardShell>
   )
