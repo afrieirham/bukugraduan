@@ -8,20 +8,41 @@ const client = algoliasearch(APP_ID, ADMIN_KEY)
 const index = client.initIndex('dev_LISTINGS')
 
 exports.addToIndex = functions.firestore.document('booklist/{booklistId}').onCreate((snapshot) => {
-  const data = snapshot.data()
+  const { title, description, condition, price, authorUniversity, createdAt } = snapshot.data()
   const objectID = snapshot.id
-  return index.saveObject({ ...data, objectID })
+
+  const publicBooklistInfo = {
+    objectID,
+    title,
+    description,
+    condition,
+    price,
+    authorUniversity,
+    createdAt,
+  }
+
+  return index.saveObject(publicBooklistInfo)
 })
 
 exports.updateIndex = functions.firestore.document('booklist/{booklistId}').onUpdate((change) => {
   // Get updated data
-  const newData = change.after.data()
+  const { title, description, condition, price, authorUniversity, createdAt } = change.after.data()
   const objectID = change.after.id
   const isSold = change.after.data().isSold
 
+  const publicBooklistInfo = {
+    objectID,
+    title,
+    description,
+    condition,
+    price,
+    authorUniversity,
+    createdAt,
+  }
+
   // Delete from algolia if sold
   if (!isSold) {
-    return index.saveObject({ ...newData, objectID })
+    return index.saveObject(publicBooklistInfo)
   } else {
     return index.deleteObject(objectID)
   }
