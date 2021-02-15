@@ -18,7 +18,7 @@ function ListingHits({ hits }) {
           <ListingSkeleton />
         </>
       ) : (
-        hits.map((hit) => <Listing key={hit.objectID} {...hit} />)
+        hits.map((hit) => <Listing key={hit.objectID} id={hit.objectID} {...hit} />)
       )}
     </Box>
   )
