@@ -7,7 +7,7 @@ import { useAuth } from '@/utils/auth'
 
 function AccountInfoForm() {
   const { user, signOut } = useAuth()
-  const { handleSubmit, register, setValue, formState } = useForm()
+  const { handleSubmit, register, setValue } = useForm()
   const toast = useToast()
 
   useEffect(async () => {
@@ -19,16 +19,14 @@ function AccountInfoForm() {
   }, [user])
 
   const onSubmit = (userInfo) => {
-    if (formState.isDirty) {
-      saveUser({ ...userInfo, uid: user.uid })
-      toast({
-        title: 'Success!',
-        description: "You're profile has been updated",
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      })
-    }
+    saveUser({ ...userInfo, uid: user.uid })
+    toast({
+      title: 'Success!',
+      description: "You're profile has been updated",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    })
   }
 
   return (
@@ -49,12 +47,7 @@ function AccountInfoForm() {
         <Text fontWeight='semibold' fontSize='sm'>
           Mobile number
         </Text>
-        <Input
-          type='text'
-          name='mobile'
-          placeholder='60182731234'
-          ref={register({ required: true })}
-        />
+        <Input type='text' name='mobile' placeholder='60182731234' ref={register} />
         <Text fontSize='xs' color='gray.600' mt={1}>
           Please include country code
         </Text>

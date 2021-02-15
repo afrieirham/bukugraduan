@@ -1,11 +1,21 @@
 import NextLink from 'next/link'
-import { Flex, Button, Stack, Avatar, Link, LinkOverlay, LinkBox } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { Flex, Button, Stack, Avatar, Link, AvatarBadge } from '@chakra-ui/react'
+import { BookOpen } from 'react-feather'
 
 import { useAuth } from '@/utils/auth'
-import { BookOpen } from 'react-feather'
+import { getFirestoreUser } from '@/utils/db'
 
 function DashboardShell({ maxWidth, children }) {
   const { user, signInWithGoogle } = useAuth()
+  const [isAccountComplete, setIsAccountComplete] = useState(true)
+
+  useEffect(async () => {
+    if (user) {
+      const { mobile } = await getFirestoreUser(user.uid)
+      setIsAccountComplete(Boolean(mobile))
+    }
+  }, [user])
 
   return (
     <Flex flexDirection='column' justifyContent='center'>
@@ -34,9 +44,14 @@ function DashboardShell({ maxWidth, children }) {
                 <Link>My Booklist</Link>
               </NextLink>
               <NextLink href='/account' passHref>
-                <Link>Account</Link>
+                <Link>
+                  <Avatar size='sm' src={user.photoUrl}>
+                    {!isAccountComplete && (
+                      <AvatarBadge borderColor='papayawhip' bg='tomato' boxSize='1.25em' />
+                    )}
+                  </Avatar>
+                </Link>
               </NextLink>
-              <Avatar size='sm' src={user.photoUrl} />
             </Stack>
           ) : (
             <Button size='sm' onClick={() => signInWithGoogle()}>
