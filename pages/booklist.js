@@ -2,13 +2,14 @@ import NextLink from 'next/link'
 import useSWR from 'swr'
 
 import { Button, Flex, Heading } from '@chakra-ui/react'
+import { Plus } from 'react-feather'
 
+import { useAuth } from '@/utils/auth'
+import fetcher from '@/utils/fetcher'
 import DashboardShell from '@/components/DashboardShell'
 import BooklistEmptyState from '@/components/BooklistEmptyState'
-import fetcher from '@/utils/fetcher'
 import BooklistTableSkeleton from '@/components/BooklistTableSkeleton'
 import BooklistTable from '@/components/BooklistTable'
-import { useAuth } from '@/utils/auth'
 
 function Booklist() {
   const { user } = useAuth()
@@ -31,11 +32,12 @@ function Booklist() {
         <NextLink href='/add-book'>
           <Button
             backgroundColor='teal.200'
-            color='teal.800'
+            color='teal.900'
             _hover={{ bg: 'teal.300' }}
             _active={{ bg: 'teal.400' }}
+            leftIcon={<Plus size='15' />}
           >
-            + Add Book
+            Add Book
           </Button>
         </NextLink>
       </Flex>
