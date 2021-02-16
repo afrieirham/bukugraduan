@@ -1,12 +1,16 @@
-import { Configure, InstantSearch } from 'react-instantsearch-dom'
-import { Text, Heading } from '@chakra-ui/react'
+import { useState } from 'react'
+import useSWR from 'swr'
+import { Text, Heading, Box, Input, Button, Flex } from '@chakra-ui/react'
 
+import fetcher from '@/utils/fetcher'
 import DashboardShell from '@/components/DashboardShell'
-import SearchBox from '@/components/SearchBox'
 import ListingHits from '@/components/ListingHits'
-import { searchClient, INDEX_NAME } from '@/lib/algolia'
+import PoweredByAlgolia from '@/components/PoweredByAlgolia'
 
 function Home() {
+  const [search, setSearch] = useState('')
+  const { data } = useSWR(`/api/listings${search ? `?search=${search}` : ''}`, fetcher)
+
   return (
     <DashboardShell maxWidth='1000px'>
       <Heading
@@ -29,11 +33,36 @@ function Home() {
         don’t use it anymore. It's still a work-in-progress, but you are welcomed to have a look
         around!
       </Text>
-      <InstantSearch indexName={INDEX_NAME} searchClient={searchClient}>
-        <Configure hitsPerPage={5} />
-        <SearchBox />
-        <ListingHits />
-      </InstantSearch>
+      <Box as='form' mt={16} noValidate position='relative' role='search'>
+        <Input
+          bg='white'
+          variant='filled'
+          px={8}
+          py={10}
+          placeholder='Book title that you’re looking for'
+          _focus={{ bg: 'white' }}
+          type='search'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button
+          position='absolute'
+          right={8}
+          top={5}
+          size='lg'
+          backgroundColor='teal.200'
+          color='teal.700'
+          _hover={{ bg: 'teal.300' }}
+          _active={{ bg: 'teal.400' }}
+          type='submit'
+        >
+          Search
+        </Button>
+        <Flex justifyContent='flex-end' mt={4}>
+          <PoweredByAlgolia />
+        </Flex>
+      </Box>
+      <ListingHits hits={data?.listings} />
     </DashboardShell>
   )
 }
