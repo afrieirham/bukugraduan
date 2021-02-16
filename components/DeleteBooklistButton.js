@@ -24,13 +24,9 @@ function DeleteBooklistButton({ booklistId }) {
     deleteListing(booklistId)
     mutate(
       ['/api/booklist', user.token],
-      async ({ booklist }) => {
-        console.log(booklist)
-        console.log(booklist.filter((booklist) => booklist.id !== booklistId))
-        return {
-          booklist: booklist.filter((booklist) => booklist.id !== booklistId),
-        }
-      },
+      async ({ booklist }) => ({
+        booklist: booklist.filter((booklist) => booklist.id !== booklistId),
+      }),
       false,
     )
     onClose()
