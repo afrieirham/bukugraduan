@@ -1,12 +1,12 @@
-import { connectHits } from 'react-instantsearch-dom'
-import { Heading, Text, Box } from '@chakra-ui/react'
+import { connectInfiniteHits } from 'react-instantsearch-dom'
+import { Heading, Text, Button, Flex } from '@chakra-ui/react'
 
 import Listing from './Listing'
 import ListingSkeleton from './ListingSkeleton'
 
-function ListingHits({ hits }) {
+function ListingHits({ hits, hasMore, refineNext }) {
   return (
-    <Box mt={8} width='800px' mx='auto'>
+    <Flex direction='column' mt={8} width='800px' mx='auto'>
       {hits?.length === 0 ? (
         <Text>There are no listed books currently</Text>
       ) : (
@@ -20,8 +20,19 @@ function ListingHits({ hits }) {
       ) : (
         hits.map((hit) => <Listing key={hit.objectID} id={hit.objectID} {...hit} />)
       )}
-    </Box>
+      {hits && (
+        <Flex justifyContent='center' my={8}>
+          {hasMore ? (
+            <Button onClick={refineNext} variant='solid' colorScheme='teal'>
+              Show more
+            </Button>
+          ) : (
+            <Text>You've reached the end 👋🏻</Text>
+          )}
+        </Flex>
+      )}
+    </Flex>
   )
 }
 
-export default connectHits(ListingHits)
+export default connectInfiniteHits(ListingHits)

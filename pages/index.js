@@ -1,4 +1,4 @@
-import { InstantSearch } from 'react-instantsearch-dom'
+import { Configure, InstantSearch } from 'react-instantsearch-dom'
 import { Text, Heading } from '@chakra-ui/react'
 
 import DashboardShell from '@/components/DashboardShell'
@@ -30,6 +30,7 @@ function Home() {
         around!
       </Text>
       <InstantSearch indexName={INDEX_NAME} searchClient={searchClient}>
+        <Configure hitsPerPage={5} />
         <SearchBox />
         <ListingHits />
       </InstantSearch>
