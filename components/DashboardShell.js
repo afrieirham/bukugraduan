@@ -57,9 +57,14 @@ function DashboardShell({ maxWidth, children }) {
               </NextLink>
             </Stack>
           ) : (
-            <Button size='sm' onClick={() => signInWithGoogle()}>
-              Log In
-            </Button>
+            <Stack spacing={4} isInline alignItems='center'>
+              <NextLink href='/book-request' passHref>
+                <Link fontSize='sm'>Book Request</Link>
+              </NextLink>
+              <Button size='sm' onClick={() => signInWithGoogle()}>
+                Log In
+              </Button>
+            </Stack>
           )}
         </Flex>
       </Flex>
