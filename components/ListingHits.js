@@ -23,7 +23,7 @@ function ListingHits({ hits, hasMore, refineNext }) {
       {hits && (
         <Flex justifyContent='center' my={8}>
           {hasMore ? (
-            <Button onClick={refineNext} variant='solid' colorScheme='teal'>
+            <Button onClick={refineNext} variant='ghost'>
               Show more
             </Button>
           ) : (

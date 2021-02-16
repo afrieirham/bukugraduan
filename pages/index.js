@@ -30,7 +30,7 @@ function Home() {
         around!
       </Text>
       <InstantSearch indexName={INDEX_NAME} searchClient={searchClient}>
-        <Configure hitsPerPage={5} />
+        <Configure hitsPerPage={10} />
         <SearchBox />
         <ListingHits />
       </InstantSearch>
