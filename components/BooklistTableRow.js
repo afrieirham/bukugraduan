@@ -1,12 +1,13 @@
 import React from 'react'
+import NextLink from 'next/link'
 import { mutate } from 'swr'
-import { Trash } from 'react-feather'
 import { formatRelative, parseISO } from 'date-fns'
-import { Box, IconButton, Switch } from '@chakra-ui/react'
+import { Box, Link, Switch } from '@chakra-ui/react'
 
 import { Td } from './Table'
 import { useAuth } from '@/utils/auth'
 import { updateListing } from '@/utils/db'
+import DeleteBooklistButton from './DeleteBooklistButton'
 
 function BooklistTableRow({ id, title, price, isSold, createdAt }) {
   const { user } = useAuth()
@@ -26,16 +27,18 @@ function BooklistTableRow({ id, title, price, isSold, createdAt }) {
 
   return (
     <Box as='tr'>
-      <Td>{title}</Td>
+      <Td fontWeight='semibold'>
+        <NextLink href={`/listing/${id}`} passHref>
+          <Link>{title}</Link>
+        </NextLink>
+      </Td>
       <Td>{price}</Td>
       <Td>
         <Switch colorScheme='green' isChecked={isSold} onChange={onToggle} />
       </Td>
       <Td>{formatRelative(parseISO(createdAt), new Date())}</Td>
       <Td>
-        <IconButton variant='ghost'>
-          <Trash size='15' />
-        </IconButton>
+        <DeleteBooklistButton booklistId={id} />
       </Td>
     </Box>
   )

@@ -20,6 +20,7 @@ import {
 import { ChevronLeft, UploadCloud, X } from 'react-feather'
 import { useForm } from 'react-hook-form'
 import { mutate } from 'swr'
+import { v4 as uuid } from 'uuid'
 
 import { useAuth } from '@/utils/auth'
 import { addBook } from '@/utils/db'
@@ -55,8 +56,10 @@ function AddBookForm() {
   const onSubmit = async ({ title, price, condition, description }) => {
     if (!validatePhoto()) return
 
+    const id = uuid()
+
     // Upload photo to firebase storage
-    const upload = await uploadPhoto(acceptedFiles[0])
+    const upload = await uploadPhoto(id, acceptedFiles[0])
     const photoUrl = await upload.ref.getDownloadURL()
 
     const newBooklist = {
@@ -71,7 +74,7 @@ function AddBookForm() {
     }
 
     // Store listing info in db
-    addBook(newBooklist)
+    addBook(id, newBooklist)
 
     toast({
       title: 'Success!',

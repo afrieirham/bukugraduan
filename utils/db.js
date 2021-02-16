@@ -1,4 +1,5 @@
 import firebase from '@/lib/firebase'
+import { removePhoto } from './storage'
 
 const firestore = firebase.firestore()
 
@@ -12,12 +13,20 @@ export async function getFirestoreUser(uid) {
   return user
 }
 
-export function addBook(book) {
-  const newBooklist = firestore.collection('booklist').doc()
+export function addBook(listId, book) {
+  const newBooklist = firestore.collection('booklist').doc(listId)
   newBooklist.set(book)
   return newBooklist
 }
 
 export function updateListing(listId, newValues) {
   return firestore.collection('booklist').doc(listId).update(newValues)
+}
+
+export function deleteListing(listId) {
+  // Remove photo from storage
+  removePhoto(listId)
+
+  // Remove listing in firestore
+  return firestore.collection('booklist').doc(listId).delete()
 }
