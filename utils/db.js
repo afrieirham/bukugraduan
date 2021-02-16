@@ -30,3 +30,9 @@ export function deleteListing(listId) {
   // Remove listing in firestore
   return firestore.collection('booklist').doc(listId).delete()
 }
+
+export function makeRequest(request) {
+  const newRequest = firestore.collection('requests').doc()
+  newRequest.set(request)
+  return newRequest
+}

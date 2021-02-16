@@ -40,8 +40,11 @@ function DashboardShell({ maxWidth, children }) {
 
           {user ? (
             <Stack spacing={4} isInline alignItems='center'>
+              <NextLink href='/book-request' passHref>
+                <Link fontSize='sm'>Book Request</Link>
+              </NextLink>
               <NextLink href='/booklist' passHref>
-                <Link>My Booklist</Link>
+                <Link fontSize='sm'>My Booklist</Link>
               </NextLink>
               <NextLink href='/account' passHref>
                 <Link>

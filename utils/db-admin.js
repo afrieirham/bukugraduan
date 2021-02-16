@@ -42,3 +42,18 @@ export async function getUserDetails(uid) {
   const user = { id: doc.id, ...doc.data() }
   return { user }
 }
+
+export async function getAllBookRequest() {
+  const snapshot = await db.collection('requests').where('status', '!=', 'deleted').get()
+
+  const requests = []
+  snapshot.forEach((doc) => {
+    requests.push({ id: doc.id, ...doc.data() })
+  })
+
+  const sortedRequests = requests.sort((a, b) =>
+    compareDesc(parseISO(a.createdAt), parseISO(b.createdAt)),
+  )
+
+  return { requests: sortedRequests }
+}
