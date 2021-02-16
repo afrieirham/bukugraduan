@@ -36,3 +36,7 @@ export function makeRequest(request) {
   newRequest.set(request)
   return newRequest
 }
+
+export function deleteBookRequest(requestId) {
+  return firestore.collection('requests').doc(requestId).delete()
+}

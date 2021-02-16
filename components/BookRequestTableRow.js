@@ -1,12 +1,12 @@
 import React from 'react'
 import useSWR from 'swr'
 import { formatRelative, parseISO } from 'date-fns'
-import { Box, IconButton, Link } from '@chakra-ui/react'
-import { Trash } from 'react-feather'
+import { Box, Link } from '@chakra-ui/react'
 
 import { Td, Tr } from './Table'
 import { useAuth } from '@/utils/auth'
 import fetcher from '@/utils/fetcher'
+import DeleteBookRequestButton from './DeleteBookRequestButton'
 
 function BookRequestTableRow({ id, title, createdAt, authorId }) {
   const { user } = useAuth()
@@ -26,13 +26,7 @@ function BookRequestTableRow({ id, title, createdAt, authorId }) {
         )}
       </Td>
       <Td>{formatRelative(parseISO(createdAt), new Date())}</Td>
-      <Td>
-        {user?.uid === authorId && (
-          <IconButton variant='ghost'>
-            <Trash size='15' />
-          </IconButton>
-        )}
-      </Td>
+      <Td>{user?.uid === authorId && <DeleteBookRequestButton requestId={id} />}</Td>
     </Box>
   )
 }
