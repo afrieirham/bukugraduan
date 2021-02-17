@@ -1,5 +1,6 @@
+import NextLink from 'next/link'
 import { connectInfiniteHits } from 'react-instantsearch-dom'
-import { Heading, Text, Button, Flex } from '@chakra-ui/react'
+import { Heading, Text, Button, Flex, Link } from '@chakra-ui/react'
 
 import Listing from './Listing'
 import ListingSkeleton from './ListingSkeleton'
@@ -7,11 +8,7 @@ import ListingSkeleton from './ListingSkeleton'
 function ListingHits({ hits, hasMore, refineNext }) {
   return (
     <Flex direction='column' mt={8} width='800px' mx='auto'>
-      {hits?.length === 0 ? (
-        <Text>There are no listed books currently</Text>
-      ) : (
-        <Heading size='sm'>Browse for books 👇🏻</Heading>
-      )}
+      <Heading size='sm'>Browse for books 👇🏻</Heading>
       {!hits ? (
         <>
           <ListingSkeleton />
@@ -27,7 +24,17 @@ function ListingHits({ hits, hasMore, refineNext }) {
               Show more
             </Button>
           ) : (
-            <Text>You've reached the end 👋🏻</Text>
+            <Flex direction='column' justifyContent='center' alignItems='center'>
+              <Text>You've reached the end 👋🏻</Text>
+              <Text>
+                Can't find your book?{' '}
+                <NextLink href='/book-request' passHref>
+                  <Text as={Link} fontWeight='semibold'>
+                    Make a request!
+                  </Text>
+                </NextLink>
+              </Text>
+            </Flex>
           )}
         </Flex>
       )}
