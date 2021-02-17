@@ -48,7 +48,7 @@ function ListingPage({ openAuthModal, listing, author }) {
 
   return (
     <DashboardShell>
-      <Flex mt={12} mb={8}>
+      <Flex mt={{ base: 4, md: 12 }} mb={{ base: 4, md: 8 }}>
         <Button
           variant='link'
           leftIcon={<ChevronLeft size='20' />}
@@ -57,14 +57,26 @@ function ListingPage({ openAuthModal, listing, author }) {
           back to Home
         </Button>
       </Flex>
-      <Flex width='100%' maxWidth='900px' mx='auto'>
-        <Flex direction='column'>
-          <Box width='350px' height='450px' position='relative'>
+      <Flex width='100%' maxWidth='900px' mx='auto' direction={{ base: 'column', md: 'row' }}>
+        <Flex direction='column' alignItems='center'>
+          <Box
+            width={{ base: '250px', md: '300px' }}
+            height={{ base: '350px', md: '380px' }}
+            boxShadow={{ base: 'lg', md: 'none' }}
+            position='relative'
+          >
             <NextImage layout='fill' src={listing?.photoUrl} objectFit='cover' />
           </Box>
         </Flex>
-        <Flex width='full' flexDirection='column' bg='white' p={6} ml={8}>
-          <Flex justifyContent='space-between' alignItems='center' mb={6}>
+        <Flex
+          width='full'
+          flexDirection='column'
+          bg='white'
+          p={6}
+          ml={{ base: 0, md: 8 }}
+          mt={{ base: 8, md: 0 }}
+        >
+          <Flex justifyContent='space-between' alignItems='center' mb={{ base: 8, sm: 6 }}>
             <Badge
               variant='subtle'
               colorScheme={listing?.condition === 'used' ? 'orange' : 'green'}
@@ -76,22 +88,26 @@ function ListingPage({ openAuthModal, listing, author }) {
                 formatDistance(parseISO(listing.createdAt), new Date(), { addSuffix: true })}
             </Text>
           </Flex>
-          <Flex justifyContent='space-between' alignItems='center' mb={8}>
-            <Flex justifyContent='center' alignItems='center'>
+          <Flex
+            justifyContent='space-between'
+            alignItems={{ base: 'flex-start', sm: 'center' }}
+            mb={8}
+            direction={{ base: 'column', sm: 'row' }}
+          >
+            <Flex justifyContent='center' alignItems='center' mb={{ base: 6, sm: 0 }}>
               <Avatar mr={4} size='md' src={author?.photoUrl} />
               <Flex flexDirection='column'>
-                <Text fontWeight='bold' fontSize='xl'>
-                  {author?.name}
+                <Text fontWeight='semibold'>{author?.name}</Text>
+                <Text color='gray.500' fontSize='sm'>
+                  {author?.university}
                 </Text>
-                <Text color='gray.500'>{author?.university}</Text>
               </Flex>
             </Flex>
-            <Button variant='solid' size='md' onClick={onClick}>
+            <Button variant='solid' onClick={onClick} width={{ base: 'full', sm: 'auto' }}>
               Contact Seller
             </Button>
           </Flex>
-          <Flex mb={4}></Flex>
-          <Heading size='lg' as='h1' mb={4}>
+          <Heading fontSize='xl' as='h1' mb={4}>
             {listing?.title}
           </Heading>
           <Text fontSize='lg' mb={8}>
