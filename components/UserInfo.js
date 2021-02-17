@@ -9,7 +9,13 @@ function UserInfo({ authorId }) {
 
   if (!data) {
     return (
-      <Flex alignItems='center' position='absolute' bottom='0' mb='6'>
+      <Flex
+        alignItems='center'
+        position={{ base: 'static', sm: 'absolute' }}
+        bottom={{ sm: 0 }}
+        mt={{ base: 6 }}
+        mb={{ base: 0, sm: 6 }}
+      >
         <SkeletonCircle mr={4} size='10' />
         <Flex flexDirection='column'>
           <Skeleton height='10px' width='100px' />
@@ -20,13 +26,24 @@ function UserInfo({ authorId }) {
   }
 
   return (
-    <Flex alignItems='center' position='absolute' bottom='0' mb='6'>
-      <Avatar size='sm' mr={4} src={data?.user?.photoUrl} />
+    <Flex
+      alignItems='center'
+      position={{ base: 'static', sm: 'absolute' }}
+      bottom={{ sm: 0 }}
+      mt={{ base: 6 }}
+      mb={{ base: 0, sm: 6 }}
+    >
+      <Avatar size='sm' mr={{ base: 2, sm: 4 }} src={data?.user?.photoUrl} />
       <Flex flexDirection='column'>
-        <Text fontWeight='bold' fontSize='sm'>
+        <Text
+          fontWeight='bold'
+          fontSize={{ base: 'xs', sm: 'sm' }}
+          isTruncated
+          noOfLines={{ base: 1, sm: 3 }}
+        >
           {data?.user?.name}
         </Text>
-        <Text fontSize='sm' color='gray.500'>
+        <Text fontSize={{ base: 'xs', sm: 'sm' }} color='gray.500'>
           {data?.user?.university}
         </Text>
       </Flex>

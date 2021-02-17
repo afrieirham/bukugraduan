@@ -7,7 +7,7 @@ import ListingSkeleton from './ListingSkeleton'
 
 function ListingHits({ hits, hasMore, refineNext }) {
   return (
-    <Flex direction='column' mt={8} width='800px' mx='auto'>
+    <Flex mt={8} direction='column' maxWidth='800px' width='full' mx='auto'>
       <Heading size='sm'>Browse for books 👇🏻</Heading>
       {!hits ? (
         <>

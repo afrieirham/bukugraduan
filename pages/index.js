@@ -10,18 +10,35 @@ function Home() {
   return (
     <DashboardShell maxWidth='1000px'>
       <Heading
-        fontSize='5xl'
+        fontSize={{
+          base: '3xl',
+          sm: '4xl',
+          md: '5xl',
+        }}
         fontWeight='bold'
         textAlign='center'
         fontFamily='Playfair Display'
-        mt={32}
+        mt={{
+          base: 8,
+          sm: 16,
+          md: 32,
+        }}
         as='h1'
-        width='900px'
+        maxWidth='900px'
         mx='auto'
       >
         Buy and sell reference books online.
       </Heading>
-      <Text textAlign='center' mt={2} width='900px' mx='auto'>
+      <Text
+        textAlign='center'
+        mt={2}
+        maxWidth='900px'
+        mx='auto'
+        fontSize={{
+          base: 'sm',
+          md: 'md',
+        }}
+      >
         <i>
           <b>"Buku Graduan"</b>
         </i>{' '}

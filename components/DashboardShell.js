@@ -26,7 +26,7 @@ function DashboardShell({ maxWidth, children }) {
           width='full'
           maxWidth='900px'
           mx='auto'
-          py={4}
+          p={4}
         >
           <Stack spacing={6} isInline alignItems='center'>
             <Stack spacing={2} isInline justifyContent='flex-start' alignItems='center'>
@@ -75,6 +75,7 @@ function DashboardShell({ maxWidth, children }) {
           maxWidth={maxWidth ?? '900px'}
           flexDirection='column'
           justifyContent='flex-start'
+          p={4}
         >
           {children}
         </Flex>
