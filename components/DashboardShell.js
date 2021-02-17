@@ -5,8 +5,9 @@ import { BookOpen } from 'react-feather'
 
 import { useAuth } from '@/utils/auth'
 import { getFirestoreUser } from '@/utils/db'
+import { withAuthModal } from './Auth'
 
-function DashboardShell({ maxWidth, children }) {
+function DashboardShell({ openAuthModal, maxWidth, children }) {
   const { user, signInWithGoogle } = useAuth()
   const [isAccountComplete, setIsAccountComplete] = useState(true)
 
@@ -61,7 +62,7 @@ function DashboardShell({ maxWidth, children }) {
               <NextLink href='/book-request' passHref>
                 <Link fontSize='sm'>Book Request</Link>
               </NextLink>
-              <Button size='sm' onClick={() => signInWithGoogle()}>
+              <Button size='sm' onClick={() => openAuthModal()}>
                 Log In
               </Button>
             </Stack>
@@ -84,4 +85,4 @@ function DashboardShell({ maxWidth, children }) {
   )
 }
 
-export default DashboardShell
+export default withAuthModal(DashboardShell)

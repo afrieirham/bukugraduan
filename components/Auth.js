@@ -10,10 +10,9 @@ import {
   useDisclosure,
   useToast,
   Text,
-  Heading,
   Button,
+  useBreakpointValue,
 } from '@chakra-ui/react'
-import { BookOpen } from 'react-feather'
 
 export const withAuthModal = (Component) => (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -43,9 +42,11 @@ export const withAuthModal = (Component) => (props) => {
       })
   }
 
+  const isCentered = useBreakpointValue({ base: true, lg: false })
+
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered={isCentered} size='xs'>
         <ModalOverlay />
         <ModalContent borderRadius={4}>
           <ModalCloseButton />
