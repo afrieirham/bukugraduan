@@ -18,12 +18,21 @@ import {
 
 import { useAuth } from '@/utils/auth'
 import { makeRequest } from '@/utils/db'
+import { withAuthModal } from './Auth'
 
-function BookRequestModal({ children }) {
+function BookRequestModal({ openAuthModal, children }) {
   const toast = useToast()
   const { user } = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleSubmit, register } = useForm()
+
+  const onClick = () => {
+    if (!user) {
+      openAuthModal()
+    } else {
+      onOpen()
+    }
+  }
 
   const onSubmit = async ({ title }) => {
     const newRequest = {
@@ -54,7 +63,7 @@ function BookRequestModal({ children }) {
   return (
     <>
       <Button
-        onClick={onOpen}
+        onClick={onClick}
         backgroundColor='teal.200'
         color='teal.900'
         _hover={{ bg: 'teal.300' }}
@@ -100,4 +109,4 @@ function BookRequestModal({ children }) {
   )
 }
 
-export default BookRequestModal
+export default withAuthModal(BookRequestModal)

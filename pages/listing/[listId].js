@@ -1,13 +1,14 @@
 import React from 'react'
 import NextImage from 'next/image'
 import { useRouter } from 'next/router'
-
 import { ChevronLeft } from 'react-feather'
 import { formatDistance, parseISO } from 'date-fns'
 import { Flex, Button, Avatar, Text, Badge, Heading, Box } from '@chakra-ui/react'
 
-import DashboardShell from '@/components/DashboardShell'
+import { useAuth } from '@/utils/auth'
+import { withAuthModal } from '@/components/Auth'
 import { getAllListings, getListing, getUserDetails } from '@/utils/db-admin'
+import DashboardShell from '@/components/DashboardShell'
 
 export async function getStaticProps(context) {
   const { listing } = await getListing(context.params.listId)
@@ -35,8 +36,16 @@ export async function getStaticPaths() {
   }
 }
 
-function ListingPage({ listing, author }) {
+function ListingPage({ openAuthModal, listing, author }) {
   const router = useRouter()
+  const { user } = useAuth()
+
+  const onClick = () => {
+    if (!user) {
+      openAuthModal()
+    }
+  }
+
   return (
     <DashboardShell>
       <Flex mt={12} mb={8}>
@@ -77,7 +86,7 @@ function ListingPage({ listing, author }) {
                 <Text color='gray.500'>{author?.university}</Text>
               </Flex>
             </Flex>
-            <Button variant='solid' size='md'>
+            <Button variant='solid' size='md' onClick={onClick}>
               Contact Seller
             </Button>
           </Flex>
@@ -95,4 +104,4 @@ function ListingPage({ listing, author }) {
   )
 }
 
-export default ListingPage
+export default withAuthModal(ListingPage)
