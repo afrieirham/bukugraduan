@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
+import Router from 'next/router'
 
 import firebase from '@/lib/firebase'
 import { saveUser } from '@/utils/db'
@@ -51,7 +52,10 @@ function useAuthProvider() {
     return firebase
       .auth()
       .signOut()
-      .then(() => handleUser(false))
+      .then(() => {
+        Router.push('/')
+        handleUser(false)
+      })
   }
 
   // Watch the firebase auth state and update it accordingly

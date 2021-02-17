@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import NextLink from 'next/link'
+import Router from 'next/router'
 import useSWR from 'swr'
 
 import { Button, Flex, Heading } from '@chakra-ui/react'
@@ -14,6 +16,12 @@ import BooklistTable from '@/components/BooklistTable'
 function Booklist() {
   const { user } = useAuth()
   const { data } = useSWR(user ? ['/api/booklist', user.token] : null, fetcher)
+
+  useEffect(() => {
+    if (!user) {
+      Router.push('/')
+    }
+  }, [user])
 
   return (
     <DashboardShell>

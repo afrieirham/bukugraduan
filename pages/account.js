@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Router from 'next/router'
 import { Flex, Avatar, Text } from '@chakra-ui/react'
 
 import { useAuth } from '@/utils/auth'
@@ -8,6 +9,13 @@ import DashboardShell from '@/components/DashboardShell'
 
 function Account() {
   const { user } = useAuth()
+
+  useEffect(() => {
+    if (!user) {
+      Router.push('/')
+    }
+  }, [user])
+
   return (
     <DashboardShell>
       <Flex justifyContent='center' mt={8}>
