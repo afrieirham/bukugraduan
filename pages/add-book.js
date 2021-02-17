@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import Router from 'next/router'
 
 import { useAuth } from '@/utils/auth'
 import DashboardShell from '@/components/DashboardShell'
@@ -9,7 +10,7 @@ function AddBook() {
 
   useEffect(() => {
     if (!user) {
-      router.push('/')
+      Router.push('/')
     }
   }, [user])
 
