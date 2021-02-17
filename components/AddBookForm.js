@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { mutate } from 'swr'
 import { useDropzone } from 'react-dropzone'
+import { useForm } from 'react-hook-form'
+import { v4 as uuid } from 'uuid'
 import {
   Flex,
   Text,
@@ -16,11 +19,9 @@ import {
   RadioGroup,
   Stack,
   useToast,
+  useBreakpointValue,
 } from '@chakra-ui/react'
-import { ChevronLeft, UploadCloud, X } from 'react-feather'
-import { useForm } from 'react-hook-form'
-import { mutate } from 'swr'
-import { v4 as uuid } from 'uuid'
+import { ChevronLeft, Trash, UploadCloud } from 'react-feather'
 
 import { useAuth } from '@/utils/auth'
 import { addBook } from '@/utils/db'
@@ -31,14 +32,20 @@ function AddBookForm() {
   const toast = useToast()
   const { user } = useAuth()
 
+  const [photo, setPhoto] = useState(null)
   const [preview, setPreview] = useState(null)
   const [previewError, setPreviewError] = useState(false)
 
   const { handleSubmit, register, errors } = useForm()
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     maxFiles: 1,
-    onDrop: (acceptedFiles) => setPreview(URL.createObjectURL(acceptedFiles[0])),
+    onDrop: (acceptedFiles) => {
+      setPreview(null)
+      setPreview(URL.createObjectURL(acceptedFiles[0]))
+      setPhoto(null)
+      setPhoto(acceptedFiles[0])
+    },
   })
 
   useEffect(() => {
@@ -53,13 +60,15 @@ function AddBookForm() {
     return Boolean(preview)
   }
 
+  const uploadButtonSize = useBreakpointValue({ base: 'sm', md: 'md' })
+
   const onSubmit = async ({ title, price, condition, description }) => {
     if (!validatePhoto()) return
 
     const id = uuid()
 
     // Upload photo to firebase storage
-    const upload = await uploadPhoto(id, acceptedFiles[0])
+    const upload = await uploadPhoto(id, photo)
     const photoUrl = await upload.ref.getDownloadURL()
 
     const newBooklist = {
@@ -90,40 +99,57 @@ function AddBookForm() {
 
   return (
     <>
-      <Flex mt={6} mb={4}>
+      <Flex mt={{ base: 2, md: 6 }} mb={4}>
         <Button leftIcon={<ChevronLeft size='20' />} variant='link' onClick={() => router.back()}>
           back
         </Button>
       </Flex>
       <Flex flexDirection='column'>
-        <Heading>Tell us what you're listing</Heading>
-        <Flex mt={4} bg='white' py={8} borderRadius='8px'>
-          <Flex width='50%' pl={8} pr={4} {...getRootProps({ className: 'dropzone' })}>
+        <Heading as='h1' fontSize={{ base: '2xl', md: '3xl' }}>
+          Tell us what you're listing
+        </Heading>
+        <Flex
+          mt={4}
+          bg='white'
+          p={{ base: 4, md: 8 }}
+          borderRadius='8px'
+          direction={{ base: 'column', md: 'row' }}
+          justifyContent='space-between'
+        >
+          <Flex
+            minWidth={{ base: '250px', md: '250px' }}
+            maxWidth={{ base: '250px', md: 'none' }}
+            width='48%'
+            height={{ base: '400px', md: 'auto' }}
+            mx={{ base: 'auto', md: '0' }}
+            {...getRootProps()}
+          >
             {preview ? (
               <Flex
-                height='600px'
+                height={{ base: 'full', md: '600px' }}
                 width='full'
                 flexDirection='column'
                 alignItems='center'
-                justifyContent='center'
+                justifyContent='flex-start'
               >
                 <Image
+                  mb={4}
+                  width='full'
+                  height={{ base: 'full', md: '500px' }}
                   src={preview}
                   objectFit='cover'
-                  height='500px'
-                  width='full'
-                  mb={2}
                   borderRadius='4px'
+                  boxShadow='lg'
                 />
                 <IconButton
                   aria-label='Delete photo'
-                  icon={<X />}
+                  icon={<Trash size='15' />}
                   onClick={() => setPreview(null)}
                 />
               </Flex>
             ) : (
               <Flex
-                height='500px'
+                height={{ base: 'full', md: '500px' }}
                 width='full'
                 bg='gray.100'
                 flexDirection='column'
@@ -135,7 +161,8 @@ function AddBookForm() {
                 <input {...getInputProps()} />
                 <Flex justifyContent='center' mb={2}>
                   <Button
-                    py={6}
+                    py={{ base: 5, md: 6 }}
+                    size={uploadButtonSize}
                     backgroundColor='teal.200'
                     color='teal.800'
                     _hover={{ bg: 'teal.300' }}
@@ -145,7 +172,7 @@ function AddBookForm() {
                     Upload a photo
                   </Button>
                 </Flex>
-                <Text fontWeight='semibold' size='sm'>
+                <Text fontWeight='semibold' fontSize={{ base: 'xs', md: 'sm' }}>
                   or drag here
                 </Text>
               </Flex>
@@ -156,11 +183,13 @@ function AddBookForm() {
             onSubmit={handleSubmit(onSubmit)}
             autoComplete='off'
             flexDirection='column'
-            width='50%'
-            pr={8}
-            pl={4}
+            width={{ base: 'full', md: '48%' }}
+            mx={{ base: 'auto', md: '' }}
+            mt={{ base: 16, md: 0 }}
           >
-            <Text fontWeight='semibold'>Book Title</Text>
+            <Text mb={{ base: 2, md: 0 }} fontWeight='semibold'>
+              Book Title
+            </Text>
             <Input
               variant='outline'
               placeholder='Web Development for Dummies'
@@ -168,7 +197,7 @@ function AddBookForm() {
               ref={register({ required: true })}
               isInvalid={!!errors.title}
             />
-            <Text mt={6} fontWeight='semibold'>
+            <Text mt={6} mb={{ base: 2, md: 0 }} fontWeight='semibold'>
               Price
             </Text>
             <InputGroup>
@@ -182,7 +211,7 @@ function AddBookForm() {
                 isInvalid={!!errors.price}
               />
             </InputGroup>
-            <Text mt={6} fontWeight='semibold'>
+            <Text mt={6} mb={{ base: 2, md: 0 }} fontWeight='semibold'>
               Condition
             </Text>
             <RadioGroup defaultValue='used'>
@@ -195,11 +224,11 @@ function AddBookForm() {
                 </Radio>
               </Stack>
             </RadioGroup>
-            <Text mt={6} fontWeight='semibold'>
+            <Text mt={6} mb={{ base: 2, md: 0 }} fontWeight='semibold'>
               Description
             </Text>
             <Textarea
-              rows='5'
+              rows={7}
               placeholder={`You can put any extra info here such as meeting place or shipping method. \n\nThe book’s description would be fine too.`}
               name='description'
               ref={register}
@@ -211,6 +240,7 @@ function AddBookForm() {
                 color='teal.800'
                 _hover={{ bg: 'teal.300' }}
                 _active={{ bg: 'teal.400' }}
+                width={{ base: 'full', sm: 'auto' }}
               >
                 List Now
               </Button>
