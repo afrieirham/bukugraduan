@@ -53,6 +53,7 @@ function ListingPage({ openAuthModal, listing, author }) {
   const title = `${listing?.title} | Buku Graduan`
   const url = `https://bukugraduan.afrieirham.com/listing/${listing?.id}`
   const description = listing?.description || SEO.description
+  const images = [{ url: listing?.photoUrl }]
 
   return (
     <DashboardShell>
@@ -63,6 +64,7 @@ function ListingPage({ openAuthModal, listing, author }) {
         openGraph={{
           title,
           url,
+          images,
         }}
       />
       <Flex mt={{ base: 4, md: 12 }} mb={{ base: 4, md: 8 }}>

@@ -32,7 +32,7 @@ function Home() {
       <Text
         textAlign='center'
         mt={2}
-        maxWidth='900px'
+        maxWidth='700px'
         mx='auto'
         fontSize={{
           base: 'sm',
@@ -43,8 +43,7 @@ function Home() {
           <b>"Buku Graduan"</b>
         </i>{' '}
         is a marketplace for university student’s to buy and sell their reference books once they
-        don’t use it anymore. It's still a work-in-progress, but you are welcomed to have a look
-        around!
+        don’t use it anymore.
       </Text>
       <InstantSearch indexName={INDEX_NAME} searchClient={searchClient}>
         <Configure hitsPerPage={10} />

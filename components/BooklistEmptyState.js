@@ -17,7 +17,7 @@ function BooklistEmptyState() {
       direction='column'
     >
       <Heading size='lg' mb={2}>
-        You haven’t list any books yet
+        You haven’t listed any books yet
       </Heading>
       <Text mb={8}>Look up books that you have no use for, and list it!</Text>
 
