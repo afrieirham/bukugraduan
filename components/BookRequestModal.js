@@ -14,13 +14,14 @@ import {
   Button,
   useDisclosure,
   useToast,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 
 import { useAuth } from '@/utils/auth'
 import { makeRequest } from '@/utils/db'
 import { withAuthModal } from './Auth'
 
-function BookRequestModal({ openAuthModal, children }) {
+function BookRequestModal({ openAuthModal, children, ...props }) {
   const toast = useToast()
   const { user } = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -60,6 +61,9 @@ function BookRequestModal({ openAuthModal, children }) {
     onClose()
   }
 
+  const modalSize = useBreakpointValue({ base: 'xs', md: 'md' })
+  const isCentered = useBreakpointValue({ base: true, lg: false })
+
   return (
     <>
       <Button
@@ -68,16 +72,17 @@ function BookRequestModal({ openAuthModal, children }) {
         color='teal.900'
         _hover={{ bg: 'teal.300' }}
         _active={{ bg: 'teal.400' }}
+        {...props}
       >
         {children}
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={modalSize} isCentered={isCentered}>
         <ModalOverlay />
         <ModalContent as='form' onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader>Request a book</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody mb={6}>
             <FormControl>
               <FormLabel>Book Title</FormLabel>
               <Input

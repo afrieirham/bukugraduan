@@ -1,6 +1,6 @@
 import React from 'react'
 import useSWR from 'swr'
-import { Flex, Heading } from '@chakra-ui/react'
+import { Box, Flex, Heading, useBreakpointValue } from '@chakra-ui/react'
 
 import fetcher from '@/utils/fetcher'
 import DashboardShell from '@/components/DashboardShell'
@@ -11,6 +11,7 @@ import BookRequestEmptyState from '@/components/BookRequestEmptyState'
 
 function BookRequest() {
   const { data } = useSWR('/api/requests', fetcher)
+  const breakpoint = useBreakpointValue({ base: 'base', sm: 'sm', md: 'md', lg: 'lg' })
   return (
     <DashboardShell>
       <Flex
@@ -19,13 +20,30 @@ function BookRequest() {
         maxWidth='900px'
         width='full'
         mx='auto'
-        mt={16}
-        mb={8}
+        mt={{ base: 2, md: 16 }}
+        mb={{ base: 2, md: 8 }}
       >
-        <Heading as='h1' size='xl'>
+        <Heading as='h1' fontSize={{ base: '2xl', md: '3xl' }}>
           Book Request
         </Heading>
-        <BookRequestModal>Request a book</BookRequestModal>
+        {breakpoint !== 'base' ? (
+          <BookRequestModal>Request a book</BookRequestModal>
+        ) : (
+          <Box
+            position='fixed'
+            bottom='0'
+            p={4}
+            mx={-4}
+            width='full'
+            zIndex='2'
+            display='flex'
+            justifyContent='center'
+          >
+            <BookRequestModal size='lg' borderRadius='50px' boxShadow='base'>
+              Request a book
+            </BookRequestModal>
+          </Box>
+        )}
       </Flex>
 
       {!data ? (

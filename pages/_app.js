@@ -2,6 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import { AuthProvider } from '@/utils/auth'
 import { customTheme } from '@/styles/theme'
+import 'react-perfect-scrollbar/dist/css/styles.css'
 
 function MyApp({ Component, pageProps }) {
   return (

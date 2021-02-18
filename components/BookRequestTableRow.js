@@ -1,7 +1,7 @@
 import React from 'react'
 import useSWR from 'swr'
 import { formatRelative, parseISO } from 'date-fns'
-import { Box, Link } from '@chakra-ui/react'
+import { Box, Link, Text } from '@chakra-ui/react'
 
 import { Td, Tr } from './Table'
 import { useAuth } from '@/utils/auth'
@@ -14,18 +14,24 @@ function BookRequestTableRow({ id, title, createdAt, authorId }) {
 
   return (
     <Box key={id} as={Tr}>
-      <Td fontWeight='semibold'>{title}</Td>
-      <Td>{data?.user?.name || 'Anonymous'}</Td>
+      <Td fontWeight='semibold'>
+        <Text fontSize={{ base: 'sm', md: 'md' }}>{title}</Text>
+      </Td>
       <Td>
+        <Text fontSize={{ base: 'sm', md: 'md' }}>{data?.user?.name || 'Anonymous'}</Text>
+      </Td>
+      <Td fontSize={{ base: 'sm', md: 'md' }}>
         {data?.user?.mobile ? (
-          <Link color='blue.500'>{data.user.mobile}</Link>
+          <Link color='blue.500' as='a'>
+            {data.user.mobile}
+          </Link>
         ) : user ? (
           'Not Provided'
         ) : (
           'Login to view'
         )}
       </Td>
-      <Td>{formatRelative(parseISO(createdAt), new Date())}</Td>
+      <Td fontSize={{ base: 'sm', md: 'md' }}>{formatRelative(parseISO(createdAt), new Date())}</Td>
       <Td>{user?.uid === authorId && <DeleteBookRequestButton requestId={id} />}</Td>
     </Box>
   )
