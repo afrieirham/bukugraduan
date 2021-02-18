@@ -6,9 +6,10 @@ import { BookOpen } from 'react-feather'
 import { useAuth } from '@/utils/auth'
 import { getFirestoreUser } from '@/utils/db'
 import { withAuthModal } from './Auth'
+import Footer from './Footer'
 
 function DashboardShell({ openAuthModal, maxWidth, children }) {
-  const { user, signInWithGoogle } = useAuth()
+  const { user } = useAuth()
   const [isAccountComplete, setIsAccountComplete] = useState(true)
 
   useEffect(async () => {
@@ -69,7 +70,7 @@ function DashboardShell({ openAuthModal, maxWidth, children }) {
           )}
         </Flex>
       </Flex>
-      <Flex minHeight='100vh' bg='gray.100'>
+      <Flex minHeight='100vh' bg='gray.100' direction='column'>
         <Flex
           mx='auto'
           width='full'
@@ -80,6 +81,7 @@ function DashboardShell({ openAuthModal, maxWidth, children }) {
         >
           {children}
         </Flex>
+        <Footer />
       </Flex>
     </Flex>
   )
