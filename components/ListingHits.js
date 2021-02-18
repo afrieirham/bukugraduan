@@ -24,7 +24,7 @@ function ListingHits({ hits, hasMore, refineNext }) {
               Show more
             </Button>
           ) : (
-            <Flex direction='column' justifyContent='center' alignItems='center'>
+            <Flex direction='column' justifyContent='center' alignItems='center' color='gray.500'>
               <Text>You've reached the end 👋🏻</Text>
               <Text>
                 Can't find your book?{' '}
