@@ -4,9 +4,11 @@ import Router from 'next/router'
 import { useAuth } from '@/utils/auth'
 import DashboardShell from '@/components/DashboardShell'
 import AddBookForm from '@/components/AddBookForm'
+import { useSEO } from '@/hooks/useSEO'
 
 function AddBook() {
   const { user } = useAuth()
+  const { CustomNextSeo } = useSEO()
 
   useEffect(() => {
     if (!user) {
@@ -16,6 +18,7 @@ function AddBook() {
 
   return (
     <DashboardShell>
+      <CustomNextSeo />
       <AddBookForm />
     </DashboardShell>
   )

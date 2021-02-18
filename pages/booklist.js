@@ -10,10 +10,12 @@ import BooklistEmptyState from '@/components/BooklistEmptyState'
 import BooklistTableSkeleton from '@/components/BooklistTableSkeleton'
 import BooklistTable from '@/components/BooklistTable'
 import AddBookButton from '@/components/AddBookButton'
+import { useSEO } from '@/hooks/useSEO'
 
 function Booklist() {
   const { user } = useAuth()
   const { data } = useSWR(user ? ['/api/booklist', user.token] : null, fetcher)
+  const { CustomNextSeo } = useSEO()
 
   useEffect(() => {
     if (!user) {
@@ -23,6 +25,7 @@ function Booklist() {
 
   return (
     <DashboardShell>
+      <CustomNextSeo />
       <Flex
         justifyContent='space-between'
         alignItems='center'

@@ -8,12 +8,15 @@ import BookRequestModal from '@/components/BookRequestModal'
 import BookRequestTable from '@/components/BookRequestTable'
 import BookRequestTableSkeleton from '@/components/BookRequestTableSkeleton'
 import BookRequestEmptyState from '@/components/BookRequestEmptyState'
+import { useSEO } from '@/hooks/useSEO'
 
 function BookRequest() {
+  const { CustomNextSeo } = useSEO()
   const { data } = useSWR('/api/requests', fetcher)
   const breakpoint = useBreakpointValue({ base: 'base', sm: 'sm', md: 'md', lg: 'lg' })
   return (
     <DashboardShell>
+      <CustomNextSeo />
       <Flex
         justifyContent='space-between'
         alignItems='center'

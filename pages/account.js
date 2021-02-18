@@ -3,12 +3,14 @@ import Router from 'next/router'
 import { Flex, Avatar, Text } from '@chakra-ui/react'
 
 import { useAuth } from '@/utils/auth'
+import { useSEO } from '@/hooks/useSEO'
 import AccountDisclaimer from '@/components/AccountDisclaimer'
 import AccountInfoForm from '@/components/AccountInfoForm'
 import DashboardShell from '@/components/DashboardShell'
 
 function Account() {
   const { user } = useAuth()
+  const { CustomNextSeo } = useSEO()
 
   useEffect(() => {
     if (!user) {
@@ -18,6 +20,7 @@ function Account() {
 
   return (
     <DashboardShell>
+      <CustomNextSeo />
       <Flex justifyContent='center' mt={8}>
         <Flex
           flexDirection='column'

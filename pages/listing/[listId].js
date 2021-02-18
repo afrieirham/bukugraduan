@@ -1,5 +1,6 @@
 import React from 'react'
 import NextImage from 'next/image'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import { ChevronLeft } from 'react-feather'
 import { formatDistance, parseISO } from 'date-fns'
@@ -9,6 +10,7 @@ import { useAuth } from '@/utils/auth'
 import { withAuthModal } from '@/components/Auth'
 import { getAllListings, getListing, getUserDetails } from '@/utils/db-admin'
 import DashboardShell from '@/components/DashboardShell'
+import SEO from 'next-seo.config'
 
 export async function getStaticProps(context) {
   const { listing } = await getListing(context.params.listId)
@@ -48,8 +50,21 @@ function ListingPage({ openAuthModal, listing, author }) {
     }
   }
 
+  const title = `${listing?.title} | Buku Graduan`
+  const url = `https://bukugraduan.afrieirham.com/listing/${listing?.id}`
+  const description = listing?.description || SEO.description
+
   return (
     <DashboardShell>
+      <NextSeo
+        title={title}
+        canonical={url}
+        description={description}
+        openGraph={{
+          title,
+          url,
+        }}
+      />
       <Flex mt={{ base: 4, md: 12 }} mb={{ base: 4, md: 8 }}>
         <Button
           variant='link'
