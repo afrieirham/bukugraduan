@@ -22,7 +22,7 @@ function BookRequestTableRow({ id, title, createdAt, authorId }) {
       </Td>
       <Td fontSize={{ base: 'sm', md: 'md' }}>
         {data?.user?.mobile ? (
-          <Link color='blue.500' as='a'>
+          <Link color='blue.500' as='a' href={`https://wa.me/${data.user.mobile}`} isExternal>
             {data.user.mobile}
           </Link>
         ) : user ? (

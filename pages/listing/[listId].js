@@ -43,6 +43,8 @@ function ListingPage({ openAuthModal, listing, author }) {
   const onClick = () => {
     if (!user) {
       openAuthModal()
+    } else {
+      window.open(`https://wa.me/${author?.mobile}`, '_blank')
     }
   }
 
