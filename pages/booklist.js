@@ -1,10 +1,7 @@
 import { useEffect } from 'react'
-import NextLink from 'next/link'
 import Router from 'next/router'
 import useSWR from 'swr'
-
-import { Button, Flex, Heading } from '@chakra-ui/react'
-import { Plus } from 'react-feather'
+import { Flex, Heading } from '@chakra-ui/react'
 
 import { useAuth } from '@/utils/auth'
 import fetcher from '@/utils/fetcher'
@@ -12,6 +9,7 @@ import DashboardShell from '@/components/DashboardShell'
 import BooklistEmptyState from '@/components/BooklistEmptyState'
 import BooklistTableSkeleton from '@/components/BooklistTableSkeleton'
 import BooklistTable from '@/components/BooklistTable'
+import AddBookButton from '@/components/AddBookButton'
 
 function Booklist() {
   const { user } = useAuth()
@@ -31,23 +29,13 @@ function Booklist() {
         maxWidth='900px'
         width='full'
         mx='auto'
-        mt={16}
-        mb={8}
+        mt={{ base: 4, md: 16 }}
+        mb={{ base: 4, md: 8 }}
       >
-        <Heading as='h1' size='xl'>
+        <Heading as='h1' fontSize={{ base: '2xl', md: '3xl' }}>
           My Booklist
         </Heading>
-        <NextLink href='/add-book'>
-          <Button
-            backgroundColor='teal.200'
-            color='teal.900'
-            _hover={{ bg: 'teal.300' }}
-            _active={{ bg: 'teal.400' }}
-            leftIcon={<Plus size='15' />}
-          >
-            Add Book
-          </Button>
-        </NextLink>
+        <AddBookButton />
       </Flex>
       {!data ? (
         <BooklistTableSkeleton />

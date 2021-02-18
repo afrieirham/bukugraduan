@@ -1,9 +1,11 @@
 import React from 'react'
+import { useBreakpointValue } from '@chakra-ui/react'
 
 import { Table, Th, Tr } from './Table'
 import BooklistTableRow from './BooklistTableRow'
 
 function BooklistTable({ booklist }) {
+  const breakpoint = useBreakpointValue({ md: 'md' })
   return (
     <Table>
       <thead>
@@ -11,7 +13,7 @@ function BooklistTable({ booklist }) {
           <Th>Book Title</Th>
           <Th>Price (RM)</Th>
           <Th>Sold</Th>
-          <Th>Date Added</Th>
+          {breakpoint === 'md' && <Th>Date Added</Th>}
           <Th> </Th>
         </Tr>
       </thead>

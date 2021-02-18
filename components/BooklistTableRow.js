@@ -2,7 +2,7 @@ import React from 'react'
 import NextLink from 'next/link'
 import { mutate } from 'swr'
 import { formatRelative, parseISO } from 'date-fns'
-import { Box, Link, Switch } from '@chakra-ui/react'
+import { Box, Link, Switch, useBreakpointValue } from '@chakra-ui/react'
 
 import { Td } from './Table'
 import { useAuth } from '@/utils/auth'
@@ -25,18 +25,23 @@ function BooklistTableRow({ id, title, price, isSold, createdAt }) {
     updateListing(id, { isSold })
   }
 
+  const breakpoint = useBreakpointValue({ md: 'md' })
+  const switchSize = useBreakpointValue({ base: 'sm', md: 'md' })
+
   return (
     <Box as='tr'>
-      <Td fontWeight='semibold'>
+      <Td fontWeight='semibold' fontSize={{ base: 'sm', md: 'md' }}>
         <NextLink href={`/listing/${id}`} passHref>
-          <Link>{title}</Link>
+          <Link isTruncated noOfLines={1}>
+            {title}
+          </Link>
         </NextLink>
       </Td>
-      <Td>{price}</Td>
+      <Td fontSize={{ base: 'sm', md: 'md' }}>{price}</Td>
       <Td>
-        <Switch colorScheme='green' isChecked={isSold} onChange={onToggle} />
+        <Switch colorScheme='green' isChecked={isSold} onChange={onToggle} size={switchSize} />
       </Td>
-      <Td>{formatRelative(parseISO(createdAt), new Date())}</Td>
+      {breakpoint === 'md' && <Td>{formatRelative(parseISO(createdAt), new Date())}</Td>}
       <Td>
         <DeleteBooklistButton booklistId={id} />
       </Td>

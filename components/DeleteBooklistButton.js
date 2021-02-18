@@ -9,6 +9,7 @@ import {
   AlertDialogOverlay,
   IconButton,
   Button,
+  useBreakpointValue,
 } from '@chakra-ui/react'
 import { Trash } from 'react-feather'
 import { useAuth } from '@/utils/auth'
@@ -32,12 +33,14 @@ function DeleteBooklistButton({ booklistId }) {
     onClose()
   }
 
+  const iconSize = useBreakpointValue({ base: '13', md: '15' })
+
   return (
     <>
       <IconButton
         aria-label='Delete booklist'
         variant='ghost'
-        icon={<Trash size='15' />}
+        icon={<Trash size={iconSize} />}
         onClick={() => setIsOpen(true)}
       />
 
