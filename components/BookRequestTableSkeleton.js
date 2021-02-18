@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Skeleton } from '@chakra-ui/react'
+import { Box, Skeleton, useBreakpointValue } from '@chakra-ui/react'
 import { Table, Td, Th, Tr } from './Table'
 
 const SkeletonRow = ({ width }) => (
@@ -20,6 +20,10 @@ const SkeletonRow = ({ width }) => (
 )
 
 function BookRequestTableSkeleton() {
+  const width_1 = useBreakpointValue({ base: '20px', md: '75px' })
+  const width_2 = useBreakpointValue({ base: '20px', md: '125px' })
+  const width_3 = useBreakpointValue({ base: '20px', md: '50px' })
+  const width_4 = useBreakpointValue({ base: '20px', md: '100px' })
   return (
     <Table>
       <thead>
@@ -32,11 +36,11 @@ function BookRequestTableSkeleton() {
         </Tr>
       </thead>
       <tbody>
-        <SkeletonRow width='75px' />
-        <SkeletonRow width='125px' />
-        <SkeletonRow width='50px' />
-        <SkeletonRow width='100px' />
-        <SkeletonRow width='75px' />
+        <SkeletonRow width={width_1} />
+        <SkeletonRow width={width_2} />
+        <SkeletonRow width={width_3} />
+        <SkeletonRow width={width_4} />
+        <SkeletonRow width={width_1} />
       </tbody>
     </Table>
   )

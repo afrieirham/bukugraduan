@@ -1,16 +1,15 @@
 import React from 'react'
 import { Link, Text } from '@chakra-ui/react'
-import { connectPoweredBy } from 'react-instantsearch-dom'
 
-function PoweredByAlgolia({ url }) {
+function PoweredByAlgolia() {
   return (
     <Text fontSize='xs' color='gray.500'>
       Search powered by{' '}
-      <Link as='a' href={url}>
+      <Link as='a' href='https://www.algolia.com' isExternal>
         Algolia
       </Link>
     </Text>
   )
 }
 
-export default connectPoweredBy(PoweredByAlgolia)
+export default PoweredByAlgolia
