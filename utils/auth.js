@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, createContext } from 'react'
 import Router from 'next/router'
 
 import firebase from '@/lib/firebase'
-import { saveUser } from '@/utils/db'
+import { getFirestoreUser, saveUser } from '@/utils/db'
 
 // Create authContext
 const authContext = createContext()
@@ -33,7 +33,8 @@ function useAuthProvider() {
       // Save user info to db
       saveUser(userForFirestore)
 
-      setUser(user)
+      const { mobile, university } = await getFirestoreUser(user.uid)
+      setUser({ ...user, mobile, university })
       return user
     } else {
       setUser(false)
@@ -67,6 +68,7 @@ function useAuthProvider() {
 
   return {
     user,
+    setUser,
     signInWithGoogle,
     signOut,
   }

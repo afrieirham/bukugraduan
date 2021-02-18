@@ -2,24 +2,24 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Flex, Input, Stack, Text, useToast } from '@chakra-ui/react'
 
-import { getFirestoreUser, saveUser } from '@/utils/db'
+import { saveUser } from '@/utils/db'
 import { useAuth } from '@/utils/auth'
 
 function AccountInfoForm() {
-  const { user, signOut } = useAuth()
+  const { user, signOut, setUser } = useAuth()
   const { handleSubmit, register, setValue } = useForm()
   const toast = useToast()
 
   useEffect(async () => {
     if (user) {
-      const { mobile, university } = await getFirestoreUser(user.uid)
-      setValue('mobile', mobile)
-      setValue('university', university)
+      setValue('mobile', user.mobile)
+      setValue('university', user.university)
     }
   }, [user])
 
-  const onSubmit = (userInfo) => {
-    saveUser({ ...userInfo, uid: user.uid })
+  const onSubmit = ({ mobile, university }) => {
+    saveUser({ mobile, university, uid: user.uid })
+    setUser({ ...user, mobile, university })
     toast({
       title: 'Success!',
       description: "You're profile has been updated",

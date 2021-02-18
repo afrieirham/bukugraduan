@@ -1,23 +1,13 @@
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
 import { Flex, Button, Stack, Avatar, Link, AvatarBadge } from '@chakra-ui/react'
 import { BookOpen } from 'react-feather'
 
 import { useAuth } from '@/utils/auth'
-import { getFirestoreUser } from '@/utils/db'
 import { withAuthModal } from './Auth'
 import Footer from './Footer'
 
 function DashboardShell({ openAuthModal, maxWidth, children }) {
   const { user } = useAuth()
-  const [isAccountComplete, setIsAccountComplete] = useState(true)
-
-  useEffect(async () => {
-    if (user) {
-      const { mobile } = await getFirestoreUser(user.uid)
-      setIsAccountComplete(Boolean(mobile))
-    }
-  }, [user])
 
   return (
     <Flex flexDirection='column' justifyContent='center'>
@@ -51,7 +41,7 @@ function DashboardShell({ openAuthModal, maxWidth, children }) {
               <NextLink href='/account' passHref>
                 <Link>
                   <Avatar size='sm' src={user.photoUrl}>
-                    {!isAccountComplete && (
+                    {!user.mobile && (
                       <AvatarBadge borderColor='papayawhip' bg='tomato' boxSize='1.25em' />
                     )}
                   </Avatar>
