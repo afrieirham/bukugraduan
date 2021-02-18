@@ -19,19 +19,22 @@ import {
 
 import { useAuth } from '@/utils/auth'
 import { makeRequest } from '@/utils/db'
-import { withAuthModal } from './Auth'
+import { useValidateUser, withAuthModal } from './Auth'
 
 function BookRequestModal({ openAuthModal, children, ...props }) {
   const toast = useToast()
   const { user } = useAuth()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { handleSubmit, register } = useForm()
+  const { openValidateUserModal, UserErrorModal } = useValidateUser()
 
   const onClick = () => {
-    if (!user) {
+    if (user?.mobile) {
+      onOpen()
+    } else if (!user) {
       openAuthModal()
     } else {
-      onOpen()
+      openValidateUserModal()
     }
   }
 
@@ -76,7 +79,7 @@ function BookRequestModal({ openAuthModal, children, ...props }) {
       >
         {children}
       </Button>
-
+      <UserErrorModal />
       <Modal isOpen={isOpen} onClose={onClose} size={modalSize} isCentered={isCentered}>
         <ModalOverlay />
         <ModalContent as='form' onSubmit={handleSubmit(onSubmit)}>

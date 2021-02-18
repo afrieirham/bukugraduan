@@ -1,7 +1,11 @@
-import NextLink from 'next/link'
 import { Button, Flex, Heading, Text } from '@chakra-ui/react'
 
+import { useAuth } from '@/utils/auth'
+import { useValidateUser } from './Auth'
+
 function BooklistEmptyState() {
+  const { onClick, UserErrorModal } = useValidateUser()
+
   return (
     <Flex
       width='100%'
@@ -16,16 +20,17 @@ function BooklistEmptyState() {
         You haven’t list any books yet
       </Heading>
       <Text mb={8}>Look up books that you have no use for, and list it!</Text>
-      <NextLink href='/add-book'>
-        <Button
-          backgroundColor='teal.200'
-          color='teal.800'
-          _hover={{ bg: 'teal.300' }}
-          _active={{ bg: 'teal.400' }}
-        >
-          List My First Book
-        </Button>
-      </NextLink>
+
+      <Button
+        backgroundColor='teal.200'
+        color='teal.800'
+        _hover={{ bg: 'teal.300' }}
+        _active={{ bg: 'teal.400' }}
+        onClick={onClick}
+      >
+        List My First Book
+      </Button>
+      <UserErrorModal />
     </Flex>
   )
 }
