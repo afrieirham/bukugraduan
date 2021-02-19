@@ -3,9 +3,10 @@ const algoliasearch = require('algoliasearch')
 
 const APP_ID = functions.config().algolia.app
 const ADMIN_KEY = functions.config().algolia.key
+const INDEX_NAME = functions.config().algolia.index_name
 
 const client = algoliasearch(APP_ID, ADMIN_KEY)
-const index = client.initIndex('dev_LISTINGS')
+const index = client.initIndex(INDEX_NAME)
 
 exports.addToIndex = functions.firestore.document('booklist/{booklistId}').onCreate((snapshot) => {
   const data = snapshot.data()
