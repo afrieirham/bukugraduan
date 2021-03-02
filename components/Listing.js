@@ -90,6 +90,7 @@ function Listing({ id, title, price, condition, description, photoUrl, authorId,
             fontSize={{ base: 'xs', sm: 'sm' }}
             isTruncated
             noOfLines={3}
+            whiteSpace='pre-wrap'
           >
             {description}
           </Text>
