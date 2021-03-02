@@ -132,7 +132,7 @@ function ListingPage({ openAuthModal, listing, author }) {
           <Text fontSize='lg' mb={8}>
             {listing?.price ? `RM${listing?.price}` : 'Free'}
           </Text>
-          <Text>{listing?.description}</Text>
+          <Text whiteSpace='pre-wrap'>{listing?.description}</Text>
         </Flex>
       </Flex>
     </DashboardShell>
